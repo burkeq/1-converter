@@ -7,7 +7,7 @@ import (
 )
 
 func ReadFile(filename string)([]byte, error){
-	if !strings.Contains(filename, ".json"){
+	if !strings.HasSuffix(filename, ".json"){
 		return nil, errors.New("ФАйл не json формата!")
 	}
 	data, err := os.ReadFile(filename)

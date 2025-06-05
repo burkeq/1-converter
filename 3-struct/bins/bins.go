@@ -12,7 +12,7 @@ type Bin struct{
 	Name string `json:"name"`
 }
 
-func newBin(id, name string, private bool, createdAt time.Time) *Bin{
+func NewBin(id, name string, private bool, createdAt time.Time) *Bin{
 	return &Bin{
 		Id: id,
 		Name: name,
@@ -27,4 +27,21 @@ func (bin *Bin) ToBytes()([]byte, error){
 	}
 	return data, nil
 }
-var BinList = make([]Bin, 0, 20)
+
+type BinList struct{
+	Bins []Bin `json:"bins"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+func NewBinList() *BinList{
+	return &BinList{
+		Bins: []Bin{},
+		UpdatedAt: time.Now(),
+	}
+}
+func (bins *BinList) ToBytes()([]byte, error){
+	data, err := json.Marshal(bins)
+	if err != nil{
+		return nil, err
+	}
+	return data, nil
+}

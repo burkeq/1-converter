@@ -18,9 +18,20 @@ func SaveBinToFile(bin bins.Bin) error{
 	}
 	return nil
 }
+func SaveBinListToFile(binList bins.BinList) error{
+	data, err := binList.ToBytes()
+	if err != nil{
+		return err
+	}
+	err = writeDataToFile(data)
+	if err != nil{
+		return err
+	}
+	return nil
+}
 
 func writeDataToFile(data []byte) error{
-	file, err := os.Open(storageFileName)
+	file, err := os.OpenFile(storageFileName, os.O_WRONLY, 0644)
 	if err != nil{
 		return err
 	}
@@ -46,4 +57,17 @@ func ReadBinFromFile()(*bins.Bin, error){
 		return nil, err
 	}
 	return &bin, nil
+}
+
+func ReadBinListFromFile()(*bins.BinList, error){
+	data, err := files.ReadFile(storageFileName)
+	if err != nil{
+		return nil, err
+	}
+	var bins bins.BinList
+	err = json.Unmarshal(data, &bins)
+	if err != nil{
+		return nil, err
+	}
+	return &bins, nil
 }
