@@ -1,25 +1,20 @@
 package files
 
 import (
-	"errors"
 	"os"
 	"strings"
 )
 
-func ReadAllFile(filename string)([]byte, error){
+func ReadFile(filename string) ([]byte, error) {
 	data, err := os.ReadFile(filename)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	return data, nil
 }
-func CheckJsonExtension(filename string)([]byte, error){
-	if !strings.HasSuffix(filename, ".json"){
-		return nil, errors.New("ФАйл не json формата!")
+func CheckJsonExtension(filename string) bool {
+	if !strings.HasSuffix(filename, ".json") {
+		return false
 	}
-	data, err := ReadAllFile(filename)
-	if err != nil{
-		return nil, err
-	}
-	return data, nil
+	return true
 }
